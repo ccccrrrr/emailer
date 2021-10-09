@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/ccccrrrr/config"
-	"github.com/ccccrrrr/util"
+	"github.com/ccccrrrr/emailer/config"
+	"github.com/ccccrrrr/emailer/util"
 	"errors"
 	"fmt"
 	"log"
