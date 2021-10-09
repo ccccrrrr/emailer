@@ -1,5 +1,4 @@
-module awesomeProject
+module github.com/ccccrrrr/emailer
 
 go 1.16
 
-require github.com/spf13/viper v1.9.0
