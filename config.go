@@ -1,6 +1,5 @@
-package config
+package emailer
 
-// Config is used to
 type Config struct {
 	Host string
 	Port int

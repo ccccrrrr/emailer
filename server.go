@@ -3,7 +3,6 @@ package emailer
 import (
 	"errors"
 	"fmt"
-	"github.com/ccccrrrr/emailer/config"
 	"github.com/ccccrrrr/emailer/util"
 	"log"
 	"net/smtp"
@@ -11,14 +10,14 @@ import (
 
 // content和to是一對一的關係
 type Server struct {
-	config *config.Config
+	config *Config
 	content []string
 	to []string
 	Subject string
 	ContentType string
 }
 
-func CreateServer(config *config.Config) *Server {
+func CreateServer(config *Config) *Server {
 	server := new(Server)
 	server.config = config
 	server.content = make([]string, 0)
