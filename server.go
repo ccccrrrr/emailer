@@ -1,8 +1,8 @@
 package main
 
 import (
-	"awesomeProject/config"
-	"awesomeProject/util"
+	"github.com/ccccrrrr/config"
+	"github.com/ccccrrrr/util"
 	"errors"
 	"fmt"
 	"log"
