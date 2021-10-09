@@ -1,4 +1,4 @@
-package emailer
+package main
 
 import (
 	"awesomeProject/config"
