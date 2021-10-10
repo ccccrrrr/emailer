@@ -77,7 +77,7 @@ func (s *Server) Send() error {
 	}
 	var __ error
 	for k, v := range s.to {
-		message := generateHeader(s, k) + "\r\n" + s.content[k]
+		message := generateHeader(s, k, s.config.Name) + "\r\n" + s.content[k]
 		err := s.send(k, message)
 		if err != nil {
 			__ = err
@@ -104,9 +104,9 @@ func (s *Server) send(k int, message string) error {
 	return err
 }
 
-func generateHeader(s *Server, k int) string {
+func generateHeader(s *Server, k int, name string) string {
 	header := make(map[string]string)
-	header["From"] = "test" + "<" + s.config.Email + ">"
+	header["From"] = name + "<" + s.config.Email + ">"
 	header["To"] = s.to[k]
 	header["Subject"] = s.Subject
 	header["Content-Type"] = s.ContentType
