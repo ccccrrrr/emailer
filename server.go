@@ -6,14 +6,15 @@ import (
 	"github.com/ccccrrrr/emailer/util"
 	"log"
 	"net/smtp"
+	"sync"
 )
 
 // content和to是一對一的關係
 type Server struct {
-	config *Config
-	content []string
-	to []string
-	Subject string
+	config      *Config
+	content     []string
+	to          []string
+	Subject     string
 	ContentType string
 }
 
@@ -26,14 +27,13 @@ func CreateServer(config *Config) *Server {
 	return server
 }
 
-
 func (s *Server) Reset() {
 	s.content = make([]string, 0)
 	s.to = make([]string, 0)
 	s.Subject = ""
 }
 
-func(s *Server) SetSubject(Subject string) {
+func (s *Server) SetSubject(Subject string) {
 	s.Subject = Subject
 }
 
@@ -76,14 +76,20 @@ func (s *Server) Send() error {
 		return errors.New("receiver and body mismatch")
 	}
 	var __ error
+	wg := sync.WaitGroup{}
+	wg.Add(len(s.to))
 	for k, v := range s.to {
-		message := generateHeader(s, k, s.config.Name) + "\r\n" + s.content[k]
-		err := s.send(k, message)
-		if err != nil {
-			__ = err
-			log.Printf("send to #%+v %+v error: %+v", k+1, v, err)
-		}
+		go func(k int, v string) {
+			message := generateHeader(s, k, s.config.Name) + "\r\n" + s.content[k]
+			err := s.send(k, message)
+			if err != nil {
+				__ = err
+				log.Printf("send to #%+v %+v error: %+v", k+1, v, err)
+			}
+			wg.Done()
+		}(k, v)
 	}
+	wg.Wait()
 	return __
 }
 
